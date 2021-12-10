@@ -2,13 +2,19 @@
   <div class="planet p-20 flex flex-col justify-center items-center">
     <div class="flex justify-center px-20">
       <div class="flex justify-center items-center w-2/3">
-        <img :src="require(`@/assets/planet-${planet.slug}.svg`)" alt="">
+        <img :src="require(`@/assets/planet-${planet.slug}.svg`)" alt="" v-if="this.currentUrl == 'overview'">
+        <img :src="require(`@/assets/planet-${planet.slug}-internal.svg`)" alt="" v-else-if="this.currentUrl == 'structure'">
+        <img :src="require(`@/assets/geology-${planet.slug}.png`)" alt="" v-else>
       </div>
       <div class="flex flex-col justify-center items-start w-1/3">
         <h1 class="text-white font-bold text-6xl uppercase">{{planet.name}}</h1>
         <router-view :key="$route.path"></router-view>
         <div class="flex flex-col items-center justify-center w-full toggleBtn mt-4" :style="bgColor">
-            <router-link v-for="(info, index) in planet.infos" :key="info.name" :to="{name: 'Info', params:{name: info.name}}" class="border border-gray-600 w-full py-2 mb-3 text-white uppercase">
+            <router-link 
+            v-for="(info, index) in planet.infos" 
+            :key="info.name" 
+            :to="{name: 'Info', params:{name: info.name}}" 
+            class="border border-gray-600 w-full py-2 mb-3 text-white uppercase">
               <span class="mx-4">0{{index + 1}}</span> {{info.name}}
             </router-link>
         </div>
@@ -59,6 +65,10 @@ export default {
       return {
         '--bg-hover-color': this.planet.color,
       }
+    },
+    currentUrl: function() {
+      return this.$route.params.name;
+
     }
   }
 }

@@ -9,13 +9,15 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    props: true
+    props: true,
+    redirect: "/mercury/overview"
   },
   {
     path: '/:slug',
     name: 'Planet',
     component: () => import(/* webpackChunkName: "planet" */ '../views/Planet.vue'),
     props: true,
+    redirect: "/:slug/overview",
     children: [
       {
         path: ":name",
